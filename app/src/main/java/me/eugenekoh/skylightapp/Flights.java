@@ -51,6 +51,7 @@ public class Flights extends AppCompatActivity {
 
                     long current_bid = (long) snapshot.getData().get("CurrentBid");
                     long old_bid = (long) snapshot.getData().get("OldBid");
+                    //junminglocalbranch
 
 
                     if (current_bid > old_bid){
