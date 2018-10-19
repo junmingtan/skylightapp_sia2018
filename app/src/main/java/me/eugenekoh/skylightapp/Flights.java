@@ -49,7 +49,7 @@ public class Flights extends AppCompatActivity {
 
                 if (snapshot != null && snapshot.exists()) {
 
-                    long current_bid = (long) snapshot.getData().get("Current Bid");
+                    long current_bid = (long) snapshot.getData().get("CurrentBid");
                     long old_bid = (long) snapshot.getData().get("OldBid");
 
 
