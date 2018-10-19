@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -57,6 +62,38 @@ public class Options extends AppCompatActivity {
                 }
             }
         });
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        long bid = (long) document.getData().get("CurrentBid");
+
+                        docRef.update("OldBid", bid)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error updating document", e);
+                                    }
+                                });
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
@@ -157,8 +194,8 @@ public class Options extends AppCompatActivity {
 
                         if (snapshot != null && snapshot.exists()) {
 
-                            Log.d(TAG, "DocumentSnapshot data: else loop" + snapshot.getData().get("Current Bid"));
-                            long bid = (long) snapshot.getData().get("Current Bid");
+                            Log.d(TAG, "DocumentSnapshot data: else loop" + snapshot.getData().get("CurrentBid"));
+                            long bid = (long) snapshot.getData().get("CurrentBid");
 
                             ((TextView) view.findViewById(R.id.title2)).setText("$" + bid);
 
@@ -203,8 +240,8 @@ public class Options extends AppCompatActivity {
 
                         if (snapshot != null && snapshot.exists()) {
 
-                            Log.d(TAG, "DocumentSnapshot data: else loop" + snapshot.getData().get("Current Bid"));
-                            long bid = (long) snapshot.getData().get("Current Bid");
+                            Log.d(TAG, "DocumentSnapshot data: else loop" + snapshot.getData().get("CurrentBid"));
+                            long bid = (long) snapshot.getData().get("CurrentBid");
 
                             ((TextView) view.findViewById(R.id.title3)).setText("$" + bid);
                             ((TextView) view1.findViewById(R.id.title2)).setText("$" + bid);
