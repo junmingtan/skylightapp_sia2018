@@ -479,15 +479,17 @@
             android:layout_height="4dp"
             android:background="@drawable/bg_gradient_soft" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:tabIndicatorHeight="0dp"
-            app:tabMode="fixed"
-            app:theme="@style/Toolbar.Light" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/grey_60"
+            app:itemIconTint="@color/mdtp_white"
+            app:itemTextColor="@color/mdtp_white"
+            app:menu="@menu/menu_bottom_navigation_basic" />
+
 
     </LinearLayout>
 

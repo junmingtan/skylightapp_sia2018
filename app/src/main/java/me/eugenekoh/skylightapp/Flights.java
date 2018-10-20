@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class Flights extends AppCompatActivity {
     }
 
     private void initCardView() {
-        View button = findViewById(R.id.travelflex);
+        RelativeLayout button = findViewById(R.id.travelflex);
         button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -119,15 +120,15 @@ public class Flights extends AppCompatActivity {
 
     private void initAccepted(){
         TextView tv = findViewById(R.id.depart_time);
-        tv.setText("Depart at 12.35pm, 27 Oct 2018");
+        tv.setText("Depart at 11.30pm, 27 Oct 2018");
         tv = findViewById(R.id.arrive_time);
-        tv.setText("Arrive at 7.35pm, 27 Oct 2017");
+        tv.setText("Arrive at 5.55pm, 28 Oct 2017");
         tv = findViewById(R.id.flightnum);
-        tv.setText("SQ 317");
+        tv.setText("SQ 322");
         tv = findViewById(R.id.boarding_time);
-        tv.setText("12.05pm");
+        tv.setText("11.00pm");
         tv = findViewById(R.id.gate);
-        tv.setText("A9");
+        tv.setText("A29");
         tv = findViewById(R.id.seat);
         tv.setText("28C");
         tv = findViewById(R.id.bid_details);
