@@ -10,8 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/grey_5">
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,7 +104,6 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/offer_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Current Offer"
@@ -208,7 +206,7 @@
                                 android:id="@+id/textView15"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Departs on 27 Oct 2018 at 11.30pm"
+                                android:text="Departs on 10 Jan 2018 at 12.35pm"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@android:color/black" />
 
@@ -216,7 +214,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Arrives on 28 Oct 2018 at 5.55pm"
+                                android:text="Arrives on 10 Jan 2018 at 7.35pm"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@android:color/black" />
 
@@ -231,7 +229,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="SQ 322"
+                                android:text="SQ 317"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="?attr/colorPrimary" />
 

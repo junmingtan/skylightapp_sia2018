@@ -152,7 +152,7 @@ public class Bumpbid extends AppCompatActivity {
                     TextView view = findViewById(R.id.current_bid);
                     view.setText("SGD " + bid);
                     view = findViewById(R.id.current_voucher);
-                    view.setText("+ SGD " + voucher + " cash voucher");
+                    view.setText("+ SGD " + voucher + " meal voucher");
                     Log.d(TAG, "Current data: " + snapshot.getData());
                 } else {
                     Log.d(TAG, "Current data: null");

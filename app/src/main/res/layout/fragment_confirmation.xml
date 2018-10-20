@@ -18,7 +18,6 @@
             app:cardUseCompatPadding="true">
 
             <LinearLayout
-                android:id="@+id/offer_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -30,7 +29,6 @@
                     android:layout_marginTop="1dp">
 
                     <ImageView
-                        android:id="@+id/imageTickCircle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
@@ -38,7 +36,6 @@
                         app:srcCompat="@drawable/shape_circle" />
 
                     <ImageView
-                        android:id="@+id/imageTick"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_centerInParent="true"
@@ -58,7 +55,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/offer_detail_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Accepted"
@@ -67,7 +63,7 @@
 
 
                     <TextView
-                        android:id="@+id/offer_detail_subheader"
+                        android:id="@+id/textView16"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Result at 8.30pm"
@@ -75,10 +71,9 @@
                         android:textColor="@color/colorPrimary" />
 
                     <TextView
-                        android:id="@+id/offer_detail_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Thank you for accepting the Bumpbid offer. You will be notified of the result at 8.30pm through this app. Please show the following QR code to our staff at the check in counter to collect the cash voucher. Chontact the chatbot for any questions"
+                        android:text="Thank you for accepting the Bumpbid offer. You will be notified of the result at 8.30pm through this app. Please show the following QR code to our staff at the check in counter to collect the meal voucher. Chontact the chatbot for any questions"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@android:color/black" />
 
@@ -97,7 +92,6 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/qr_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="6dp"
@@ -107,6 +101,7 @@
             tools:layout_editor_absoluteY="5dp">
 
             <LinearLayout
+                android:id="@+id/qr_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -146,7 +141,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cash Voucher"
+                        android:text="Meal Voucher"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                         android:textColor="@color/indigo_900" />
 
