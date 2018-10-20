@@ -49,7 +49,7 @@ public class Bumpbid extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences sp = getSharedPreferences("bumpbid",MODE_PRIVATE);
         updateBid();
-
+//      checkConfirmation();
         setContentView(R.layout.activity_bumpbid);
         initToolbar();
         initInfo();
@@ -57,10 +57,8 @@ public class Bumpbid extends AppCompatActivity {
 
         //init onClickListener on qr
         if(sp.getBoolean("accepted",false)) {
-            addConfirmationInfo();
             initQR();
         }
-        checkBidCompleted();
     }
 
     private void initToolbar() {
@@ -76,16 +74,6 @@ public class Bumpbid extends AppCompatActivity {
         getSupportActionBar().setTitle("Bumpbid");
         Tools.setSystemBarColor(this, R.color.grey_20);
         Tools.setSystemBarLight(this);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void initInfo(){
@@ -210,63 +198,26 @@ public class Bumpbid extends AppCompatActivity {
                 });
 
     }
+
+//    private void checkConfirmation(){
+//        SharedPreferences sp = getSharedPreferences("bumpbid",MODE_PRIVATE);
+//        if(sp.getBoolean("accept",false)){
+//            addConfirmationInfo();
+//        }
+//    }
+
     private void initQR(){
-        CardView qr = findViewById(R.id.qr_code);
+        LinearLayout qr = findViewById(R.id.qr_code);
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder imageDialog = new AlertDialog.Builder(Bumpbid.this);
                 imageDialog.setTitle("QR Code");
                 ImageView showImage = new ImageView(Bumpbid.this);
-                showImage.setImageResource(R.drawable.qr_code);
                 imageDialog.setView(showImage);
                 imageDialog.setNegativeButton("Close",null);
-                imageDialog.show();
             }
         });
     }
-
-    private void checkBidCompleted() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference docRef = db.collection("bids").document("SQ890");
-        final String TAG = "XiaoQi";
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-
-                    Log.d(TAG, "DocumentSnapshot data: else loop" + snapshot.getData().get("isOngoing"));
-                    Boolean isOngoing = (Boolean) snapshot.getData().get("isOngoing");
-                    if(!isOngoing) initBidCompleted();
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
-            }
-        });
-    }
-
-    private void initBidCompleted(){
-        TextView offerText = findViewById(R.id.offer_text);
-        offerText.setText("Confirmed Offer");
-        offerText = findViewById(R.id.offer_detail_header);
-        offerText.setText("Offer Confirmed");
-        offerText = findViewById(R.id.offer_detail_subheader);
-        offerText.setVisibility(View.GONE);
-        offerText = findViewById(R.id.offer_detail_text);
-        offerText.setText(R.string.bumpbid_confirmedtext);
-
-        ImageView offerMain = findViewById(R.id.imageTick);
-        offerMain.setColorFilter(getResources().getColor(R.color.mdtp_white));
-
-        ImageView offerMain2 = findViewById(R.id.imageTickCircle);
-        offerMain2.setColorFilter(getResources().getColor(R.color.green_600));
-    }
-
 }
 

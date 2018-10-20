@@ -1,13 +1,16 @@
 package me.eugenekoh.skylightapp;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
@@ -19,15 +22,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import me.eugenekoh.skylightapp.utils.Tools;
 
@@ -44,11 +51,44 @@ public class Flights extends AppCompatActivity {
         setContentView(R.layout.activity_flights);
         initToolbar();
         initCardView();
-        checkBidCompleted();
+
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        final String TAG = "XiaoQi";
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        Log.d(TAG, token);
+                    }
+                });
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
+            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+
     }
 
     private void initCardView() {
-        RelativeLayout button = findViewById(R.id.travelflex);
+        Button button = findViewById(R.id.travelflex);
         button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -88,72 +128,5 @@ public class Flights extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void checkBidCompleted() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference docRef = db.collection("bids").document("SQ890");
-        final String TAG = "XiaoQi";
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-
-                    Log.d(TAG, "DocumentSnapshot data: else loop" + snapshot.getData().get("isOngoing"));
-                    Boolean isOngoing = (Boolean) snapshot.getData().get("isOngoing");
-                    if(!isOngoing) {
-                        initAccepted();
-                        initNavigation();
-                    }
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
-            }
-        });
-    }
-
-    private void initAccepted(){
-        TextView tv = findViewById(R.id.depart_time);
-        tv.setText("Depart at 11.30pm, 27 Oct 2018");
-        tv = findViewById(R.id.arrive_time);
-        tv.setText("Arrive at 5.55pm, 28 Oct 2017");
-        tv = findViewById(R.id.flightnum);
-        tv.setText("SQ 322");
-        tv = findViewById(R.id.boarding_time);
-        tv.setText("11.00pm");
-        tv = findViewById(R.id.gate);
-        tv.setText("A29");
-        tv = findViewById(R.id.seat);
-        tv.setText("28C");
-        tv = findViewById(R.id.bid_details);
-        tv.setText("BumpBid confirmed. Click for more details");
-    }
-    private void initNavigation(){
-        BottomNavigationView navi = findViewById(R.id.navigation);
-        navi.setVisibility(View.VISIBLE);
-        navi.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_chat:
-                        startActivity(new Intent(Flights.this, Chat.class));
-                        finish();
-                        return true;
-                    case R.id.navigation_flight:
-                        return true;
-                    case R.id.navigation_travel:
-                        startActivity(new Intent(Flights.this, Travel.class));
-                        finish();
-                        return true;
-                }
-                return false;
-            }
-        });
     }
 }
